@@ -49,7 +49,7 @@
     const ItemType = document.getElementById('ItemType');
     
     async function fetchItems() {
-      const response = await fetch('./items.json');
+      const response = await fetch('https://itempicker.atlagaming.eu/items.json');
       return await response.json();
     }
     
