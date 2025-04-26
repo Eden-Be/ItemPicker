@@ -1,0 +1,108 @@
+body {
+  background-image: url('background.png');
+  background-size: cover; /* Couvre toute la fenêtre */
+  background-repeat: no-repeat; /* Empêche la répétition */
+  background-attachment: fixed; /* Fixe l'image lors du défilement */
+  background-position: center; /* Centre l'image */
+  font-family: Arial, sans-serif; /* Police similaire */
+  color: #fff; /* Texte blanc pour contraster avec le fond */
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  gap: 2rem;
+  padding: 20px;
+  margin: 0 auto; /* Centre le contenu horizontalement */
+}
+
+#details {
+  flex: 1;
+  background-color: rgba(0, 0, 0, 0.7); /* Fond semi-transparent */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  color: #fff;
+  max-height: 80vh;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.detail-label {
+  font-weight: bold;
+  color: #ccc;
+}
+
+.detail-value {
+  color: #fff;
+}
+
+#list {
+  flex: 3; /* Augmente la largeur relative par rapport à #details */
+  height: 100vh; /* Limite la hauteur de la liste */
+  overflow-y: auto; /* Ajoute un défilement vertical */
+  overflow-x: hidden; /* Supprime le défilement horizontal */
+  border: 1px solid #444; /* Bordure sombre */
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.7); /* Fond semi-transparent */
+  border-radius: 8px;
+}
+
+#item {
+  display: grid;
+  grid-template-columns: repeat(28, minmax(30px, 1fr)); /* 28 items par ligne avec des colonnes flexibles */
+  gap: 5px; /* Espacement entre les items */
+  padding: 0;
+  list-style-type: none;
+}
+
+#item li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #333; /* Fond sombre pour les items */
+  border-radius: 4px;
+  padding: 3px; /* Réduit l'espace interne */
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.2s;
+  height: 40px; /* Réduit la hauteur des items */
+  width: 40px; /* Réduit la largeur des items */
+}
+
+#item li:hover {
+  background-color: #555; /* Change la couleur au survol */
+  transform: scale(1.1); /* Agrandit légèrement au survol */
+}
+
+#item img {
+  width: 30px; /* Réduit la taille des icônes */
+  height: 30px;
+  object-fit: cover;
+}
+
+#search {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #444;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: #222;
+  color: #fff;
+}
+
+#VNum {
+  display: inline-block;
+  padding: 5px 10px; /* Ajoute de l'espace autour du texte */
+  border: 1px solid #ccc; /* Bordure grise */
+  border-radius: 4px; /* Coins arrondis */
+  background-color: #333; /* Fond gris foncé */
+  color: #fff; /* Texte blanc pour contraster */
+  font-size: 0.9rem; /* Taille de texte légèrement réduite */
+  margin-top: 10px; /* Ajoute un espacement au-dessus */
+}

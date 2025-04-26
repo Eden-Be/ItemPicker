@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Document</title>
+</head>
+<body>
+  <div class="container">
+    <div id="details">
+      <h1 id="titre"></h1>
+      <p id="VNum"></p>
+      <p id="description"></p>
+      <p id="price"></p>
+      <p id="InventoryType"></p>
+      <p id="classe"></p>
+      <p id="Design"></p>
+      <p id="IconId"></p>
+      <p id="ItemSubType"></p>
+      <p id="ItemType"></p>
+      <p id="name_code"></p>
+    </div>
+    <div id="list">
+<input type="text" id="search" placeholder="Rechercher par nom ou VNum..." />
+      <ol id="item"></ol>
+    </div>
+  </div>
+</body>
+</html>
+
+
+<script>
+  window.onload = async () => {
+    const ul = document.getElementById('item');
+    const searchInput = document.getElementById('search');
+    const list = document.createDocumentFragment();
+    
+    const titre = document.getElementById('titre');
+    const description = document.getElementById('description');
+    const price = document.getElementById('price');
+    const InventoryType = document.getElementById('InventoryType');
+    const Design = document.getElementById('Design');
+    const IconId = document.getElementById('IconId');
+    const ItemSubType = document.getElementById('ItemSubType');
+    const VNum = document.getElementById('VNum');
+    const name_code = document.getElementById('name_code');
+    const classe =document.getElementById('classe');
+    const ItemType = document.getElementById('ItemType');
+    
+    async function fetchItems() {
+      const response = await fetch('./items.json');
+      return await response.json();
+    }
+    
+    const items = await fetchItems();
+    let filteredItems = items;
+
+    function displayItems(items) {
+      ul.innerHTML = "";
+
+      items.forEach(item => {
+        const li = document.createElement('li');
+        const img = document.createElement('img');
+
+        // Définir l'URL de l'image en fonction de l'iconId
+        img.src = `https://itempicker.atlagaming.eu/api/items/icon/${item.iconId}`;
+        img.onerror = "this.onerror = null; this.src='https://itempicker.atlagaming.eu/api/items/icon/0'"
+        
+
+        li.addEventListener('click', function () {
+          titre.textContent = item.name.fr;
+
+          description.textContent = 'Description : ' + item.desc['fr'];
+          description.style.color = 'green';
+
+          price.innerHTML = `${item.price} <img src="gold.jpg" alt="or" style="width: 20px; vertical-align: middle;">`;
+
+          InventoryType.textContent = 'InventoryType : ' + getInventoryType(item.itemType);
+
+          const itemClass = getClasseById(item.itemType, item.itemSubType);
+
+          if (getInventoryType(item.itemType) === 'Wear') {
+            console.log(item.itemType, item.itemSubType);
+            console.log(itemClass)
+            if (itemClass !== '') {
+              classe.textContent = 'Class : ' + itemClass;
+            }
+          }
+
+          Design.textContent = 'Design : ' + item.design;
+          
+          IconId.textContent = 'IconId : ' + item.iconId;
+
+          ItemSubType.textContent = 'ItemSubType : ' + item.itemSubType;
+
+          VNum.textContent = 'VNum : ' + parseInt(item.iconId);
+          VNum.style.color = 'green';
+
+          name_code.textContent = item.name_code;
+
+          ItemType.textContent = 'ItemType : ' + item.itemType;
+          console.log(item);
+
+        });
+
+        // Ajouter uniquement l'image dans l'élément de la liste
+        li.appendChild(img);
+        ul.appendChild(li);
+      });
+    }
+
+    searchInput.onchange = () => {
+      const search = searchInput.value.toLowerCase();
+      
+
+      console.log(search);
+
+      filteredItems = items.filter((item) => {
+        return item.name.fr.toLowerCase().includes(search) || item?.iconId.toString().includes(search)
+      });
+
+      console.log(filteredItems);
+      displayItems(filteredItems);
+    }
+
+    function getInventoryType(id) {
+      switch (id) {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 6:
+        case 13:
+        case 26:
+          return 'Wear'
+
+        case 5:
+        case 8:
+        case 6:
+        case 10:
+        case 14:
+        case 15:
+        case 17:
+        case 18:
+        case 31:
+        case 33:
+        case 34:
+        case 11:
+          return 'Main'
+      
+        default:
+          return 'Etc'
+      }
+    }
+
+    function getClasseById(inventoryTypeId, inventorySubTypeId) {
+      const type = `${inventoryTypeId}_${inventorySubTypeId}`
+      switch(type) {
+        case "1_0":
+        case "0_0":
+          return 'ADV'
+        case "0_1":
+        case "1_3":
+          return 'Epeiste'
+
+        case "0_6":
+        case "1_2":
+        case "0_3":
+          return 'Archer'
+
+        case "0_9":
+        case "1_1":
+        case "0_8":
+          return 'Mage'
+
+        case "2_4":
+        case "2_5":
+        case "2_2":
+        case "3_2":
+        case "3_3":
+          return 'Melee, Archer, Mage'
+
+        default:
+          return ""
+      }
+    }
+
+    
+
+    
+
+      // Weapon = 0,
+      //   Armor = 1,
+      //   Fashion = 2,
+      //   Jewelry = 3,
+      //   Specialist = 4,
+      //   Box = 5,
+      //   Shell = 6,
+      //   Main = 10,
+      //   Upgrade = 11,
+      //   Production = 12,
+      //   Map = 13,
+      //   Special = 14,
+      //   Potion = 15,
+      //   Event = 16,
+      //   Title = 17,
+      //   Quest1 = 18,
+      //   Sell = 20,
+      //   Food = 21,
+      //   Snack = 22,
+      //   Fish = 23,
+      //   Magical = 24,
+      //   Material = 25,
+      //   PetPartnerItem = 26,
+      //   Ammo = 27,
+      //   Quest2 = 28,
+      //   House = 30,
+      //   Terrace = 31,
+      //   Minigame = 32,
+      //   Garden = 33,
+      //   MinilandTheme = 34
+
+    displayItems(items)
+}
+</script>
