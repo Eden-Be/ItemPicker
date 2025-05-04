@@ -63,7 +63,7 @@
         const li = document.createElement('li');
         const img = document.createElement('img');
 
-        // Définir l'URL de l'image en fonction de l'iconId
+        
         img.src = `https://itempicker.atlagaming.eu/api/items/icon/${item.iconId}`;
         img.onerror = "this.onerror = null; this.src='https://itempicker.atlagaming.eu/api/items/icon/0'"
         
@@ -104,7 +104,7 @@
 
         });
 
-        // Ajouter uniquement l'image dans l'élément de la liste
+       
         li.appendChild(img);
         ul.appendChild(li);
       });
